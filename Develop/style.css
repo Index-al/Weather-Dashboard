@@ -1,0 +1,72 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set a base font size and family */
+body {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+/* Add some spacing and center the content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Add some basic styles to headings */
+h1, h2, h3 {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Add some basic styles to buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Add some basic styles to links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Add some basic styles to input fields */
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Add some basic styles to lists */
+ul {
+    list-style-type: none;
+}
+
+/* Add some basic styles to images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Header gradient(left to right blue to dark purple) */
+header {
+    background: linear-gradient(to right, rgb(80, 91, 215), #28065c);
+    color: white;
+    padding: 40px;
+}
+
+/* Header title */
+header h1 {
+    float: right;
+    margin-top: -15px;
+    margin-right: 20%;
+}
