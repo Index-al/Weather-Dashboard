@@ -57,6 +57,11 @@ img {
     height: auto;
 }
 
+/* Hidden class to dynamically hide content */
+.hidden {
+    display: none;
+}
+
 /* Header gradient(left to right blue to dark purple) */
 header {
     background: linear-gradient(to right, rgb(80, 91, 215), #28065c);
@@ -68,5 +73,32 @@ header {
 header h1 {
     float: right;
     margin-top: -15px;
-    margin-right: 20%;
+    margin-right: 25%;
+}
+
+/* Contain the <aside> to the left 20% of the screen */
+aside {
+    float: left;
+    width: 25%;
+    padding: 20px;
+}
+
+aside label {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+aside input {
+    width: 100%;
+    margin-top: 10px;
+}
+
+aside hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+aside h3 {
+    margin-top: 10px;
+    font-size: 20px;
 }

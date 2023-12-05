@@ -8,8 +8,30 @@
     <link rel="stylesheet" href="./Develop/style.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
         <h1>Weather Dashboard</h1>
     </header>
+    <!-- Sidebar -->
+    <aside>
+        <div class = "search" id = "search">
+            <form>
+                <label for="search-city">Search for a City:</label>
+                <input type="text" id="search-city" name="search-city" placeholder="San Diego">
+                <input type="submit" value="Search">
+            </form>
+            <!-- Line breaker under "submit" button -->
+            <hr>
+            <!-- Search History -->
+            <div class = "search-history" id = "search-history">
+                <h3>Search History</h3>
+                <div class = "search-blank" id = "search-blank">No history yet.<br> Search for a city to get started!</div>
+            </div>
+        </div>
+            
+    </aside>
+
+    <!-- Link the script -->
+    <script src="./Develop/script.js"></script>
 </body>
 </html>
