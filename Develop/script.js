@@ -84,8 +84,10 @@ function displayResults() {
         })
         .catch(function(error) {
             console.log(error);
-            // Handle the error
-            // TODO: Implement the error handling logic
+            // Extract the last 3 digits of the error
+            var errorCode = error.message.slice(-3);
+            // Display an error message on the page with the error code
+            document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
         });
     }
 }
