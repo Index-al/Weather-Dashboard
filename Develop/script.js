@@ -79,15 +79,42 @@ function displayResults() {
         .then(function(data) {
             // Process the fetched data
             console.log(data);
-            // Display the search results
-            // TODO: Implement the logic to display the search results
+            // Display the search results(use day.js to format the date)
+            var currentCity = data.name;
+            var currentDate = dayjs().format("MM/DD/YYYY");
+            var currentIcon = data.weather[0].icon;
+            var currentTemp = data.main.temp;
+            var currentWindSpeed = data.wind.speed;
+            var currentHumidity = data.main.humidity;
+
+            // Display the current weather conditions
+            // City name
+            document.querySelector("#current").innerHTML = "<h2>" + currentCity + " (" + currentDate + ")</h2>";
+            // Weather icon
+            document.querySelector("#current").innerHTML += "<img src='http://openweathermap.org/img/w/" + currentIcon + ".png' alt='Current weather icon'>";
+            // Temperature
+            document.querySelector("#current").innerHTML += "<p>Temp: " + currentTemp + " °F</p>";
+            // Wind speed
+            document.querySelector("#current").innerHTML += "<p>Wind: " + currentWindSpeed + " MPH</p>";
+            // Humidity
+            document.querySelector("#current").innerHTML += "<p>Humidity: " + currentHumidity + "%</p>";
+
         })
         .catch(function(error) {
             console.log(error);
             // Extract the last 3 digits of the error
             var errorCode = error.message.slice(-3);
             // Display an error message on the page with the error code
-            document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
+            if (errorCode === "404") {
+                document.querySelector("#results").innerHTML = "<h2 class='error-message'>City not found!</h2>";
+            } else if (errorCode === "L')") {
+                document.querySelector("#results").innerHTML = "<h2 class='error-message'>An error has occurred. Please refresh the page.</h2>";
+            } else {
+                document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
+            }
         });
     }
 }
+
+// After all HTML elements have loaded, display the search results
+window.onload = displayResults();
