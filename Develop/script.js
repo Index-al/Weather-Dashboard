@@ -16,34 +16,15 @@ addEventListener("click", function(event) {
         var searchInput = document.querySelector("#search-input").value;
         searchHistory.push(searchInput);
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-        console.log(searchHistory);
-        console.log("Search input: " + searchInput);
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchInput + "&appid=" + apiKey;
-        console.log("queryURL: " + encodeURI(queryURL));
+
+        // Update the city variable
+        city = searchInput;
 
         // Update the URL with the latest search
         history.pushState(null, null, "?city=" + searchInput);
 
-        // Fetch data from the OpenWeatherMap API
-        fetch(queryURL)
-            .then(function(response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Error: " + response.status);
-                }
-            })
-            .then(function(data) {
-                // Process the fetched data
-                console.log(data);
-                // Display the search results
-                // TODO: Implement the logic to display the search results
-            })
-            .catch(function(error) {
-                console.log(error);
-                // Handle the error
-                // TODO: Implement the error handling logic
-            });
+        // Display the results
+        displayResults();
     }
 });
 
@@ -74,5 +55,37 @@ document.addEventListener("click", function(event) {
         var selectedCity = event.target.getAttribute("data-search");
         // Update the URL with the selected city
         history.pushState(null, null, "?city=" + selectedCity);
+        // Update the city variable
+        city = selectedCity;
+        displayResults();
     }
 });
+
+// If a city is specified in the URL, fetch data from the OpenWeatherMap API and display it on the page(section id = results, div id = current, div id = forecast)
+function displayResults() {
+    if (city) {
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+        console.log("queryURL: " + encodeURI(queryURL));
+
+        // Fetch data from the OpenWeatherMap API
+        fetch(queryURL)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Error: " + response.status);
+            }
+        })
+        .then(function(data) {
+            // Process the fetched data
+            console.log(data);
+            // Display the search results
+            // TODO: Implement the logic to display the search results
+        })
+        .catch(function(error) {
+            console.log(error);
+            // Handle the error
+            // TODO: Implement the error handling logic
+        });
+    }
+}
