@@ -61,10 +61,29 @@ document.addEventListener("click", function(event) {
     }
 });
 
+// Function to update search history
+function updateSearchHistory() {
+    // Clear the search history
+    document.querySelector("#search-history").innerHTML = "";
+    // Display the updated search history
+    var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    var startIndex = Math.max(0, searchHistory.length - 10);
+    for (var i = searchHistory.length - 1; i >= startIndex; i--) {
+        console.log("Search #" + i + ": " + searchHistory[i]);
+        var searchHistoryItem = document.createElement("li");
+        searchHistoryItem.textContent = searchHistory[i];
+        searchHistoryItem.setAttribute("class", "list-group-item");
+        searchHistoryItem.setAttribute("id", "search-history-item");
+        searchHistoryItem.setAttribute("data-search", searchHistory[i]);
+        searchHistoryItem.setAttribute("style", "cursor: pointer;");
+        document.querySelector("#search-history").appendChild(searchHistoryItem);
+    }
+}
+
 // If a city is specified in the URL, fetch data from the OpenWeatherMap API and display it on the page(section id = results, div id = current, div id = forecast)
 function displayResults() {
     if (city) {
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
         console.log("queryURL: " + encodeURI(queryURL));
 
         // Fetch data from the OpenWeatherMap API
@@ -107,12 +126,22 @@ function displayResults() {
             // Display an error message on the page with the error code
             if (errorCode === "404") {
                 document.querySelector("#results").innerHTML = "<h2 class='error-message'>City not found!</h2>";
+                // Remove the city from the search history
+                var index = searchHistory.indexOf(city);
+                if (index > -1) {
+                    searchHistory.splice(index, 1);
+                    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+                    updateSearchHistory();
+                }
             } else if (errorCode === "L')") {
                 document.querySelector("#results").innerHTML = "<h2 class='error-message'>An error has occurred. Please refresh the page.</h2>";
+                // Reload the page
+                location.reload();
             } else {
                 document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
             }
         });
+        updateSearchHistory();
     }
 }
 

@@ -134,3 +134,51 @@ aside li:hover {
     text-align: center;
     margin-top: 5%;
 }
+
+/* Style the current weather conditions */
+#current {
+    border: 1px solid #000;
+    padding: 10px;
+    margin-top: 10px;
+    margin-right: 2%;
+    margin-left: 25%;
+}
+
+/* City name */
+#current h2 {
+    font-size: 30px;
+    font-weight: bold;
+    display: inline;
+}
+
+/* Weather icon */
+#current img {
+    display: inline-block;
+    position: absolute;
+    margin-top: -8px;
+}
+
+/* Weather data */
+#current p {
+    font-size: 18px;
+    margin-top: 10px;
+}
+/* Fade-in animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply fade-in animation to elements */
+.fade-in {
+    animation: fade-in 0.3s ease-in;
+}
+
+/* Style the 5-Day forecast */
+#forecast h2 {
+    margin-top: 10px;
+}
