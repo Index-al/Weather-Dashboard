@@ -6,6 +6,8 @@
     <title>Weather Dashboard</title>
     <!-- Link the CSS -->
     <link rel="stylesheet" href="./Develop/style.css">
+    <!-- Link the jQuery script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -14,11 +16,11 @@
     </header>
     <!-- Sidebar -->
     <aside>
-        <div class = "search" id = "search">
+        <div class = "search" id = "search-form">
             <form>
                 <label for="search-city">Search for a City:</label>
-                <input type="text" id="search-city" name="search-city" placeholder="San Diego">
-                <input type="submit" value="Search">
+                <input type="text" id="search-input" name="search-input" placeholder="San Diego">
+                <input type="submit" value="Search" id = "search-btn">
             </form>
             <!-- Line breaker under "submit" button -->
             <hr>

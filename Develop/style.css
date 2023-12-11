@@ -102,3 +102,29 @@ aside h3 {
     margin-top: 10px;
     font-size: 20px;
 }
+
+/* Style the search button */
+aside input#search-btn {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+aside input#search-btn:hover {
+    background-color: #0069d9;
+}
+
+/* Style the search history results into clickable buttons */
+aside li {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    list-style-type: none;
+    text-align: center;
+}
+
+aside li:hover {
+    background-color: #eee;
+}
