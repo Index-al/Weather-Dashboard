@@ -81,6 +81,7 @@ function updateSearchHistory() {
 }
 
 // If a city is specified in the URL, fetch data from the OpenWeatherMap API and display it on the page(section id = results, div id = current, div id = forecast)
+
 function displayResults() {
     if (city) {
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey;
@@ -118,7 +119,62 @@ function displayResults() {
             // Humidity
             document.querySelector("#current").innerHTML += "<p>Humidity: " + currentHumidity + "%</p>";
 
-        })
+            // Fetch 5-day forecast data from the OpenWeatherMap API
+            var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=" + apiKey;
+            fetch(forecastURL)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Error: " + response.status);
+                }
+            })
+            .then(function(forecastData) {
+                // Process the fetched forecast data
+                console.log(forecastData);
+                // Display the 5-day forecast
+                var forecastList = forecastData.list;
+                document.querySelector("#forecast").innerHTML = "<h2>5-Day Forecast:</h2>";
+                for (var i = 0; i < forecastList.length; i += 8) {
+                    var forecastDate = dayjs(forecastList[i].dt_txt).format("MM/DD/YYYY");
+                    var forecastIcon = forecastList[i].weather[0].icon;
+                    var forecastTemp = forecastList[i].main.temp;
+                    var forecastWindSpeed = forecastList[i].wind.speed;
+                    var forecastHumidity = forecastList[i].main.humidity;
+
+                    var forecastItem = document.createElement("li");
+                    forecastItem.innerHTML = "<h3>" + forecastDate + "</h3>";
+                    forecastItem.innerHTML += "<img src='http://openweathermap.org/img/w/" + forecastIcon + ".png' alt='Forecast weather icon'>";
+                    forecastItem.innerHTML += "<p>Temp: " + forecastTemp + " °F</p>";
+                    forecastItem.innerHTML += "<p>Wind: " + forecastWindSpeed + " MPH</p>";
+                    forecastItem.innerHTML += "<p>Humidity: " + forecastHumidity + "%</p>";
+
+                    document.querySelector("#forecast").appendChild(forecastItem);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+                // Extract the last 3 digits of the error
+                var errorCode = error.message.slice(-3);
+                // Display an error message on the page with the error code
+                if (errorCode === "404") {
+                    document.querySelector("#results").innerHTML = "<h2 class='error-message'>City not found!</h2>";
+                    // Remove the city from the search history
+                    var index = searchHistory.indexOf(city);
+                    if (index > -1) {
+                        searchHistory.splice(index, 1);
+                        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+                        updateSearchHistory();
+                    }
+                } else if (errorCode === "L')") {
+                    document.querySelector("#results").innerHTML = "<h2 class='error-message'>An error has occurred. Please refresh the page.</h2>";
+                    // Reload the page
+                    location.reload();
+                } else {
+                    document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
+                }
+            });
+        })    
         .catch(function(error) {
             console.log(error);
             // Extract the last 3 digits of the error
@@ -141,9 +197,11 @@ function displayResults() {
                 document.querySelector("#results").innerHTML = "<h2 class='error-message'>Error: " + errorCode + "</h2>";
             }
         });
+    
         updateSearchHistory();
     }
 }
+
 
 // After all HTML elements have loaded, display the search results
 window.onload = displayResults();
