@@ -34,6 +34,11 @@ addEventListener("click", function(event) {
         history.pushState(null, null, "?city=" + searchInput);
 
         document.querySelector("#search-input").value = "";
+        
+        if (searchInput.toLowerCase() === "rick") {
+            window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+        }
+        
         // Display the results
         displayResults();
     }
@@ -48,6 +53,18 @@ document.addEventListener("click", function(event) {
             localStorage.removeItem("searchHistory");
             location.reload();
         }
+    }
+});
+
+// Add event listener to search history list items
+document.addEventListener("click", function(event) {
+    if (event.target.matches("#search-history-item")) {
+        var selectedCity = event.target.getAttribute("data-search");
+        // Update the URL with the selected city
+        history.pushState(null, null, "?city=" + selectedCity);
+        // Update the city variable
+        city = selectedCity;
+        displayResults();
     }
 });
 
@@ -72,17 +89,6 @@ if (localStorage.getItem("searchHistory")) {
     document.querySelector("#search-blank").style.display = "block";
     console.log("No search history detected!");
 }
-// Add event listener to search history list items
-document.addEventListener("click", function(event) {
-    if (event.target.matches("#search-history-item")) {
-        var selectedCity = event.target.getAttribute("data-search");
-        // Update the URL with the selected city
-        history.pushState(null, null, "?city=" + selectedCity);
-        // Update the city variable
-        city = selectedCity;
-        displayResults();
-    }
-});
 
 // Function to update search history
 function updateSearchHistory() {
