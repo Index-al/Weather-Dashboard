@@ -14,6 +14,16 @@ addEventListener("click", function(event) {
     event.preventDefault();
     if (event.target.matches("#search-btn")) {
         var searchInput = document.querySelector("#search-input").value;
+        if (searchInput.trim() === "") {
+            return; // Do nothing if search field is empty
+        }
+        
+        // Remove older duplicate searches
+        var index = searchHistory.indexOf(searchInput);
+        if (index !== -1) {
+            searchHistory.splice(index, 1);
+        }
+        
         searchHistory.push(searchInput);
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
 
@@ -23,8 +33,21 @@ addEventListener("click", function(event) {
         // Update the URL with the latest search
         history.pushState(null, null, "?city=" + searchInput);
 
+        document.querySelector("#search-input").value = "";
         // Display the results
         displayResults();
+    }
+});
+
+// Clear the search history button (id = clear-btn)
+// Should prompt the user with a confirmation message before clearing the search history
+document.addEventListener("click", function(event) {
+    if (event.target.matches("#clear-btn")) {
+        var clearConfirm = confirm("Are you sure you want to clear the search history?");
+        if (clearConfirm) {
+            localStorage.removeItem("searchHistory");
+            location.reload();
+        }
     }
 });
 
@@ -167,7 +190,7 @@ function displayResults() {
                         updateSearchHistory();
                     }
                 } else if (errorCode === "L')") {
-                    document.querySelector("#results").innerHTML = "<h2 class='error-message'>An error has occurred. Please refresh the page.</h2>";
+                    document.querySelector("#results").innerHTML = "<h2 class='error-message'>One moment..</h2>";
                     // Reload the page
                     location.reload();
                 } else {
@@ -199,6 +222,9 @@ function displayResults() {
         });
     
         updateSearchHistory();
+    }
+    else {
+        document.querySelector("#results").innerHTML = "<h2 class='error-message'>No city specified!</h2>";
     }
 }
 
